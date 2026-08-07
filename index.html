@@ -278,6 +278,15 @@
             .hero-title { font-size: 3rem; }
             .image-gallery { grid-template-columns: 1fr; }
         }
+        /* EARTH ROTATION */
+@keyframes rotateEarth {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
     </style>
 </head>
 <body>
@@ -303,7 +312,7 @@
         </h1>
         <p class="subtitle text-center">How the Internet, Binary Search and Prompt Engineering Power Our Digital World</p>
         
-        <div style="width: 300px; height: 300px; margin: 2rem auto; border-radius: 50%; background: url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=800') center/cover; box-shadow: 0 0 60px rgba(0, 240, 255, 0.4), inset 0 0 40px #000; animation: rotateEarth 20s linear infinite;"></div>
+        <div style="width: 300px; height: 300px; margin: 2rem auto; border-radius: 50%; background: url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=800') center/cover; box-shadow: 0 0 60px rgba(0, 240, 255, 0.4), inset 0 0 40px #000; animation: rotateEarth 60s linear infinite;"></div>
         
         <p class="text-center" style="max-width: 600px; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem;">
             Every message you send, every video you watch, and every AI image you create travels through a hidden digital universe beneath the oceans.
@@ -816,48 +825,53 @@
         window.addEventListener('touchmove', (e) => { if(isSliding) slide(e.touches[0].clientX); });
 
         // --- Taxi Analogy Logic ---
-        let currentStop = 0;
-        let fare = 0.00;
-        const stops = [10, 45, 80]; // percentages
-        
-        function startTaxiRide() {
-            const taxi = document.getElementById('taxi');
-            const meter = document.getElementById('taxi-meter');
-            const btn = document.getElementById('taxi-btn');
-            
-            if (currentStop >= stops.length - 1) {
-                // Reset
-                currentStop = 0;
-                fare = 0;
-                taxi.style.left = stops[currentStop] + '%';
-                meter.innerText = "₹ 0.00";
-                btn.innerText = "Drive to Next Stop";
-                return;
-            }
-            
-            currentStop++;
-            btn.disabled = true;
-            
-            // Calculate distance and animate
-            taxi.style.left = stops[currentStop] + '%';
-            
-            // Animate Meter
-            let targetFare = fare + (Math.random() * 50 + 50);
-            let fareInterval = setInterval(() => {
-                fare += 2.5;
-                meter.innerText = "₹ " + fare.toFixed(2);
-                if(fare >= targetFare) {
-                    fare = targetFare;
-                    meter.innerText = "₹ " + fare.toFixed(2);
-                    clearInterval(fareInterval);
-                    btn.disabled = false;
-                    if(currentStop >= stops.length - 1) {
-                        btn.innerText = "Restart Ride";
-                    }
-                }
-            }, 50);
-        }
 
+let currentStop = 0;
+let fare = 0;
+
+const stops = [10, 45, 80];
+const farePerStop = 22;
+
+function startTaxiRide() {
+
+    const taxi = document.getElementById('taxi');
+    const meter = document.getElementById('taxi-meter');
+    const btn = document.getElementById('taxi-btn');
+
+    // Restart after final stop
+    if (currentStop >= stops.length - 1) {
+
+        currentStop = 0;
+        fare = 0;
+
+        taxi.style.left = stops[0] + '%';
+        meter.innerText = "₹ 0.00";
+        btn.innerText = "Drive to Next Stop";
+
+        return;
+    }
+
+    currentStop++;
+
+    // Move taxi to next stop
+    taxi.style.left = stops[currentStop] + '%';
+
+    // EXACTLY ₹22 FOR EACH STOP
+    fare = currentStop * farePerStop;
+
+    // Final stop is exactly ₹44
+    if (currentStop === 2) {
+        fare = 44;
+    }
+
+    meter.innerText = "₹ " + fare.toFixed(2);
+
+    if (currentStop === stops.length - 1) {
+        btn.innerText = "Restart Ride";
+    } else {
+        btn.innerText = "Drive to Next Stop";
+    }
+}
         // --- River & Bucket Logic ---
         let bucketLevel = 0;
         function fillBucket(amt) {
