@@ -141,9 +141,9 @@
         .slider-wrapper { position: relative; width: 100%; max-width: 1000px; height: 600px; border-radius: 24px; overflow: hidden; margin: 2rem auto; border: 1px solid var(--glass-border); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
         .slider-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; pointer-events: none; }
         /* Simple dog (left) */
-        .img-simple { background-image: url('dog 1.png'); }
+        .img-simple { background-image: url('dog 1.png'); background-color: #222; }
         /* Highly detailed generated image (right) */
-        .img-detailed { background-image: url('dog 2.png'); clip-path: inset(0 0 0 50%); }
+        .img-detailed { background-image: url('dog 2.png'); background-color: #444; clip-path: inset(0 0 0 50%); }
         .slider-handle {
             position: absolute; top: 0; left: 50%; bottom: 0; width: 6px; background: var(--accent-cyan);
             cursor: ew-resize; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--accent-cyan); z-index: 10;
@@ -167,7 +167,7 @@
             width: 100%; height: 4px; background: repeating-linear-gradient(90deg, #fff 0, #fff 30px, transparent 30px, transparent 60px);
         }
         .taxi-sprite {
-            position: absolute; bottom: 20px; left: 20px; font-size: 4rem; z-index: 10;
+            position: absolute; bottom: 20px; left: 10%; font-size: 4rem; z-index: 10;
             transition: left 2s ease-in-out;
         }
         .taxi-stop {
@@ -187,36 +187,51 @@
             display: flex; align-items: stretch; justify-content: space-between; gap: 2rem; width: 100%;
             background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 24px; border: 1px solid var(--glass-border);
         }
-        .river-column {
-            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: linear-gradient(180deg, rgba(0,240,255,0.1), rgba(0,240,255,0.4));
-            border-radius: 16px; border: 1px solid var(--accent-cyan); position: relative; overflow: hidden; min-height: 350px;
-        }
-        .river-wave {
-            position: absolute; top: 0; left: 0; width: 100%; height: 200%;
-            background: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 40px);
-            animation: flowDown 3s linear infinite;
-        }
-        @keyframes flowDown { from { transform: translateY(-50%); } to { transform: translateY(0); } }
-        .river-content { z-index: 2; text-align: center; font-weight: bold; }
         
         .middle-column {
             flex: 1; display: flex; flex-direction: column; gap: 1rem; justify-content: center;
         }
         .bucket-column {
-            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative;
         }
         .bucket-wrapper {
             width: 150px; height: 200px; border: 4px solid #fff; border-top: none;
             border-radius: 0 0 20px 20px; position: relative; background: rgba(0,0,0,0.5); overflow: hidden;
+            transition: transform 0.8s ease; transform-origin: center bottom;
         }
         .bucket-water {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
-            background: var(--accent-cyan); transition: height 0.5s ease-out;
+            background: var(--accent-cyan); transition: height 0.3s ease-out;
         }
+        
+        .data-river {
+            position: relative; min-height: 150px; overflow: hidden; border-radius: 20px; 
+            background: linear-gradient(180deg, #06121d, #02070d); box-shadow: inset 0 0 60px rgba(0,240,255,.06);
+            margin: 20px 0; border: 1px solid rgba(0,240,255,.25); width: 100%;
+        }
+        .river-stream {
+            position: absolute; top: -70%; height: 180%; width: 18%; display: flex; flex-direction: column; 
+            gap: 14px; align-items: center; animation: riverFlow linear infinite; font-family: 'Space Mono', monospace; 
+            text-shadow: 0 0 12px currentColor;
+        }
+        .river-stream:nth-child(1){left:3%; color:#00f0ff; animation-duration:8s}
+        .river-stream:nth-child(2){left:21%; color:#ff4f81; animation-duration:11s}
+        .river-stream:nth-child(3){left:39%; color:#9dff00; animation-duration:9s}
+        .river-stream:nth-child(4){left:57%; color:#00f0ff; animation-duration:12s}
+        .river-stream:nth-child(5){left:75%; color:#ffb000; animation-duration:10s}
+        @keyframes riverFlow{ from{transform:translateY(0)} to{transform:translateY(38%)} }
+
+        .bucket-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px auto; max-width: 850px; }
+        .bucket-btn { padding: 11px 16px; border-radius: 12px; border: 1px solid rgba(0,240,255,.3); background: rgba(255,255,255,.05); color: #fff; cursor: pointer; transition: 0.2s; font-family: 'Poppins', sans-serif; font-size: 0.9rem; }
+        .bucket-btn:hover { background: rgba(0,240,255,.2); transform: translateY(-2px); border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0,240,255,0.4); }
+        
         .bucket-error {
-            color: var(--accent-pink); font-weight: bold; margin-top: 1rem; text-align: center; min-height: 50px; font-size: 1.1rem;
+            display: none; position: absolute; z-index: 5; left: 50%; top: 50%; transform: translate(-50%,-50%); 
+            width: 90%; padding: 18px; border: 2px solid var(--accent-pink); border-radius: 16px; 
+            background: rgba(8,8,18,.96); box-shadow: 0 0 30px rgba(255,79,129,.35); text-align: center;
         }
+        .bucket-error.active { display: block; animation: bucketPop .35s ease; }
+        @keyframes bucketPop{ from{opacity:0;transform:translate(-50%,-50%) scale(.8)} to{opacity:1;transform:translate(-50%,-50%) scale(1)} }
 
         /* --- THE JOURNEY & FIBER OPTIC ANIMATION --- */
         .image-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3rem; width: 100%; }
@@ -224,69 +239,122 @@
         .image-gallery img:hover { transform: scale(1.05); border-color: var(--accent-cyan); z-index: 10; position: relative; }
 
         .journey-container {
-            display: grid; grid-template-columns: 250px 1fr 250px; gap: 2rem; width: 100%;
+            display: flex; flex-direction: column; gap: 2rem; width: 100%;
             background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 24px; border: 1px solid var(--glass-border);
         }
         
-        .phone-mockup {
-            background: #111; border: 4px solid #333; border-radius: 30px; height: 350px; width: 100%; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-        .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 40%; height: 20px; background: #333; border-radius: 0 0 10px 10px; z-index: 2; }
-        .phone-screen { width: 100%; height: 100%; padding-top: 40px; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-        .yt-thumb { width: 90%; height: 120px; background: #222; border-radius: 12px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center;}
-        .play-btn { width: 50px; height: 50px; background: rgba(255,0,0,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .play-btn::after { content: ''; border-left: 15px solid white; border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 5px; }
-        
-        .binary-stream {
-            font-family: 'Space Mono', monospace; font-size: 1.2rem; color: var(--accent-cyan);
-            overflow: hidden; display: flex; flex-direction: column; justify-content: center; opacity: 0;
-            text-shadow: 0 0 10px var(--accent-cyan); text-align: center;
+        .network-journey-stage {
+            position: relative; width: 100%; padding: 40px 20px;
         }
         
-        .laser-emitter {
-            background: #222; border: 2px solid var(--accent-pink); border-radius: 12px; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; box-shadow: inset 0 0 20px rgba(255,0,85,0.3);
+        .journey-nodes-row {
+            display: flex; justify-content: space-between; align-items: center; position: relative;
         }
-        .emitter-lens { width: 50px; height: 50px; background: #111; border-radius: 50%; border: 4px solid #444; position: relative; transition: 0.3s;}
-        .emitter-lens.active { background: var(--accent-pink); box-shadow: 0 0 40px var(--accent-pink), inset 0 0 15px white; }
         
-        .status-text { margin-top: 10px; font-size: 0.9rem; font-weight: bold; color: var(--accent-cyan); text-align: center; min-height: 40px;}
+        .journey-line-dashed {
+            position: absolute; top: 50%; left: 5%; right: 5%; height: 2px;
+            border-bottom: 3px dashed rgba(255, 255, 255, 0.2); z-index: 1; transform: translateY(-50%);
+        }
 
-        /* The Fiber Cable & SVG Beam */
-        .fiber-cable-wrapper { grid-column: 1 / -1; background: rgba(255,255,255,0.05); border-radius: 40px; border: 2px solid #333; padding: 10px; position: relative; margin-top: 2rem; overflow: hidden; }
-        .fiber-core-tunnel { height: 100px; background: rgba(0,0,0,0.6); border-radius: 30px; position: relative; border-top: 3px solid rgba(255,255,255,0.3); border-bottom: 3px solid rgba(255,255,255,0.3); }
-        svg.laser-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .laser-path {
-            stroke: var(--accent-pink); stroke-width: 8; fill: none; filter: drop-shadow(0 0 10px var(--accent-pink));
-            stroke-dasharray: 3000; stroke-dashoffset: 3000; /* Hidden initially */
+        .journey-node-item {
+            width: 100px; height: 100px; background: #111; border: 2px solid #333; border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 2; position: relative; font-size: 2rem;
         }
-        .laser-path.shoot-fast { transition: stroke-dashoffset 1.5s linear; stroke-dashoffset: 0; }
-        .laser-path.shoot-slow { transition: stroke-dashoffset 6s linear; stroke-dashoffset: 0; }
+        .journey-node-item span { font-size: 0.75rem; color: #aaa; margin-top: 5px; font-family: 'Poppins', sans-serif; text-align: center; line-height: 1.1; }
 
-        /* Toggle Switch */
-        .toggle-container { display: flex; align-items: center; gap: 10px; margin-top: 1.5rem; justify-content: center; font-family: 'Poppins'; }
-        .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider-toggle { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 34px; border: 1px solid var(--glass-border); }
-        .slider-toggle:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider-toggle { background-color: var(--accent-pink); box-shadow: 0 0 15px var(--accent-pink); }
-        input:checked + .slider-toggle:before { transform: translateX(26px); }
+        .laser-particle {
+            position: absolute; width: 25px; height: 6px; background: var(--accent-pink);
+            border-radius: 10px; box-shadow: 0 0 20px var(--accent-pink), 0 0 40px red;
+            z-index: 3; display: none; transition: left 0.4s linear, top 0.4s linear;
+        }
+        
+        .approved-tick {
+            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+            color: #00ff00; font-weight: bold; font-size: 1.2rem; display: none;
+            text-shadow: 0 0 10px #00ff00; white-space: nowrap;
+        }
+
+        .phone-video-screen {
+            margin: 0 auto 20px auto; width: 200px; height: 120px; background: #000;
+            border: 4px solid #333; border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; position: relative; cursor: pointer; transition: 0.3s;
+        }
+        .phone-video-screen:hover { border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0,240,255,0.4); }
+        .play-btn {
+            width: 40px; height: 40px; background: rgba(255,0,0,0.9); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .play-btn::after { content: ''; border-left: 12px solid white; border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 4px; }
+
+        /* Cost Grid */
+        .cost-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 25px; }
+        .cost-card { padding: 25px; border-radius: 22px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.045); opacity: 0; transform: translateY(25px); animation: costReveal .7s ease forwards; }
+        .cost-card:nth-child(2) { animation-delay:.2s } .cost-card:nth-child(3) { animation-delay:.4s }
+        .cost-icon { font-size: 44px; margin-bottom: 12px; }
+        @keyframes costReveal{ to{opacity:1;transform:translateY(0)} }
+
+        /* Akinator */
+        .akinator-stage { padding: 30px 15px; border-radius: 28px; background: linear-gradient(180deg, rgba(20,8,30,.95), rgba(5,5,12,.98)); border: 1px solid rgba(255,79,129,.2); text-align: center; }
+        .akinator-mascot { font-size: 72px; filter: drop-shadow(0 0 18px #ff4f81); }
+        .akinator-tree { max-width: 800px; margin: 30px auto; display: flex; flex-direction: column; gap: 15px; }
+        
+        .tree-level { 
+            display: none; justify-content: center; flex-direction: column; align-items: center; gap: 15px;
+            opacity: 0; transform: translateY(14px); animation: treeReveal .5s ease forwards;
+        }
+        .tree-level.active { display: flex; }
+        
+        .tree-node { padding: 15px 25px; border-radius: 14px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05); position: relative; font-size: 1.1rem; }
+        .tree-node.answer { border-color: #9dff00; box-shadow: 0 0 25px rgba(157,255,0,.2); font-weight: bold; color: #9dff00; font-size: 1.5rem; }
+        
+        .akinator-options { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+        
+        @keyframes treeReveal{ to{opacity:1;transform:translateY(0)} }
+
+        .spiderman-frame { margin: 25px auto; width: min(300px, 85%); min-height: 280px; border: 2px dashed rgba(255,255,255,.25); border-radius: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; display: none; }
+        .spiderman-frame img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* Matrix Final Blocks */
+        .matrix-card {
+            cursor: pointer; position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;
+            border: 1px solid var(--glass-border);
+        }
+        .matrix-card:hover { transform: translateY(-5px); box-shadow: 0 0 30px rgba(0,240,255,.16); }
+        
+        .roaming-ray {
+            position: absolute; width: 12px; height: 12px; background: var(--accent-cyan);
+            border-radius: 50%; box-shadow: 0 0 20px 5px var(--accent-cyan);
+            display: none; animation: roam 4s linear infinite;
+        }
+        .matrix-card:hover .roaming-ray { display: block; }
+        
+        @keyframes roam {
+            0% { top: 0; left: 0; }
+            25% { top: 0; left: calc(100% - 12px); }
+            50% { top: calc(100% - 12px); left: calc(100% - 12px); }
+            75% { top: calc(100% - 12px); left: 0; }
+            100% { top: 0; left: 0; }
+        }
 
         @media(max-width: 768px) {
-            .journey-container, .river-bucket-container { grid-template-columns: 1fr; flex-direction: column;}
-            .phone-mockup { height: 250px; }
+            .river-bucket-container { flex-direction: column;}
             .hero-title { font-size: 3rem; }
             .image-gallery { grid-template-columns: 1fr; }
+            .journey-nodes-row { flex-wrap: wrap; gap: 20px; justify-content: center; }
+            .journey-line-dashed { display: none; }
         }
+        
         /* EARTH ROTATION */
-@keyframes rotateEarth {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
+        @keyframes rotateEarth { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* Binary Search CSS */
+        .binary-slider-wrap { width: min(650px,90%); margin: 25px auto; text-align: center; }
+        .binary-slider-labels { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 12px; font-weight: 700; font-size: 14px; }
+        .binary-slider-labels .increase { color: var(--accent-cyan); text-align: right; }
+        .binary-slider-labels .decrease { color: var(--accent-pink); text-align: left; }
+        #binary-range { width: 100%; direction: ltr; cursor: pointer; }
+
     </style>
 </head>
 <body>
@@ -538,34 +606,45 @@
     <!-- SECTION: RIVER & BUCKET -->
     <section class="section">
         <h2 class="text-center">What Are You Really Filling?</h2>
-        <p class="subtitle text-center">Internet is like a continuous flowing river and the data we buy is like a bucket with a particular capacity. Once it is filled from the river you can't fill more water in it. When we buy internet, we just get the permission to use it until the limit reaches.</p>
+        <p class="subtitle text-center">The internet is a continuous flow of information. Your data plan is a capacity limit for how much data you can transfer.</p>
+
+        <div class="data-river">
+            <div class="river-stream">101101<br>011010<br>110001<br>010110<br>100101<br>001011<br>111000<br>101010</div>
+            <div class="river-stream">▶<br>📱<br>▶<br>💬<br>📷<br>🎵<br>▶<br>🎮</div>
+            <div class="river-stream">010101<br>111011<br>001100<br>101010<br>011101<br>110100<br>001010</div>
+            <div class="river-stream">☁<br>▶<br>📨<br>▶<br>🖼️<br>▶<br>🎬<br>☁</div>
+            <div class="river-stream">110011<br>001101<br>101111<br>010010<br>111100<br>000111<br>101101</div>
+        </div>
+
+        <h3 class="text-center" style="margin-top: 1rem; margin-bottom: 2rem;">Choose what enters your data plan</h3>
 
         <div class="river-bucket-container">
-            <!-- Left: Internet River -->
-            <div class="river-column">
-                <div class="river-wave"></div>
-                <div class="river-content">
-                    <h3 style="font-size: 2rem; color: #fff;">THE INTERNET</h3>
-                    <p>(Continuous flow of everything)</p>
-                </div>
-            </div>
-            
-            <!-- Middle: Actions -->
             <div class="middle-column">
-                <button class="btn" onclick="fillBucket(5)">WhatsApp Message</button>
-                <button class="btn" onclick="fillBucket(15)">YouTube Video</button>
-                <button class="btn" onclick="fillBucket(30)">iGaming</button>
-                <button class="btn" onclick="fillBucket(50)">4K Streaming</button>
-                <button class="btn btn-solid" onclick="fillBucket(100)">Download Movies</button>
-            </div>
-            
-            <!-- Right: Bucket -->
-            <div class="bucket-column">
-                <h3 style="margin-bottom: 10px;">Your Data Plan</h3>
-                <div class="bucket-wrapper">
-                    <div class="bucket-water" id="bucket-water"></div>
+                <p style="text-align: center; color: var(--text-muted);">Click options multiple times to add data to your bucket.</p>
+                <div class="bucket-options">
+                    <button class="bucket-btn" onclick="addBucket('WhatsApp Message', 2)">WhatsApp Message</button>
+                    <button class="bucket-btn" onclick="addBucket('YouTube Video', 15)">YouTube Video</button>
+                    <button class="bucket-btn" onclick="addBucket('Music', 10)">Music</button>
+                    <button class="bucket-btn" onclick="addBucket('Gaming', 20)">Gaming</button>
+                    <button class="bucket-btn" onclick="addBucket('4K Streaming', 35)">4K Streaming</button>
+                    <button class="bucket-btn" onclick="addBucket('Movie Download', 45)">Movie Download</button>
                 </div>
-                <div class="bucket-error" id="bucket-error"></div>
+                <div class="bucket-controls">
+                    <button class="btn" onclick="restartBucket()">Restart Bucket</button>
+                    <button class="btn btn-solid" id="btn-increase-cap" style="display:none;" onclick="increaseBucketCapacity()">Increase Capacity</button>
+                </div>
+            </div>
+
+            <div class="bucket-column">
+                <h3 style="margin-bottom:10px;">Your Data Plan</h3>
+                <div class="bucket-wrapper" id="bucket-wrapper">
+                    <div class="bucket-water" id="bucket-water"></div>
+                    <div class="bucket-error" id="bucket-error">
+                        <strong>⚠️ CAPACITY FULL</strong>
+                        <p style="margin:10px 0; font-size: 0.9rem;">Increase the bucket capacity.</p>
+                    </div>
+                </div>
+                <div id="bucket-status" style="text-align:center;margin-top:15px;color:var(--text-muted);">0% Full</div>
             </div>
         </div>
     </section>
@@ -577,15 +656,15 @@
         
         <div class="image-gallery">
             <div class="text-center">
-                <img src="submarine cables.png" alt="Submarine Cable">
+                <img src="submarine cables.png" alt="Submarine Cable" style="background:#222;">
                 <p style="margin-top: 10px; font-weight: bold;">Submarine Cable</p>
             </div>
             <div class="text-center">
-                <img src="Fibre glass thread.png" alt="Fiber strands">
+                <img src="Fibre glass thread.png" alt="Fiber strands" style="background:#222;">
                 <p style="margin-top: 10px; font-weight: bold;">Fiberglass Threads</p>
             </div>
             <div class="text-center">
-                <img src="data centers.png" alt="Data Centers">
+                <img src="data centers.png" alt="Data Centers" style="background:#222;">
                 <p style="margin-top: 10px; font-weight: bold;">Data Centers & Lasers</p>
             </div>
         </div>
@@ -593,52 +672,56 @@
 
     <!-- SECTION: THE DATA JOURNEY -->
     <section class="section">
-        <h3 class="text-center text-gradient" style="font-size: 2.5rem;">The Data Journey</h3>
-        <p class="text-center" style="margin-bottom: 2rem;">Watch how tapping a video converts to light bouncing across the ocean.</p>
+        <h2 class="text-center text-gradient">From Your Phone to a YouTube Server</h2>
+        <p class="subtitle text-center">Watch how a request travels as a light pulse across the physical network.</p>
         
         <div class="journey-container">
-            <!-- Step 1: Phone -->
-            <div class="phone-mockup">
-                <div class="phone-notch"></div>
-                <div class="phone-screen">
-                    <div class="yt-thumb" onclick="triggerJourney()">
-                        <div class="play-btn"></div>
+            
+            <div class="phone-video-screen" id="mobile-trigger" onclick="runNetworkJourney()">
+                <div class="play-btn" id="play-btn"></div>
+                <div id="video-playing" style="display:none; color:#00f0ff; font-weight:bold; font-size:1.2rem;">▶️ Playing...</div>
+            </div>
+            
+            <div class="network-journey-stage" id="journey-stage">
+                <div class="journey-line-dashed"></div>
+                
+                <div class="journey-nodes-row">
+                    <div class="journey-node-item" id="node-1">📱<span>Mobile</span></div>
+                    <div class="journey-node-item" id="node-2">📡<span>Tower</span></div>
+                    <div class="journey-node-item" id="node-3">🏢<span>Operator</span></div>
+                    <div class="journey-node-item" id="node-4">🌐<span>Landing</span></div>
+                    <div class="journey-node-item" id="node-5">🖥️
+                        <span>USA Server</span>
+                        <div class="approved-tick" id="server-tick">✅ Approved</div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--accent-cyan); font-weight: bold; cursor: pointer; font-size: 1.2rem;" onclick="triggerJourney()">TAP TO PLAY</p>
                 </div>
+                
+                <div class="laser-particle" id="laser-dot"></div>
             </div>
-            
-            <!-- Step 2 & 3: Binary & Laser -->
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                <div class="binary-stream" id="binary-stream" style="flex: 1; background: rgba(0,0,0,0.5); border-radius: 12px; padding: 1rem;">
-                    <!-- Binary populated by JS -->
-                </div>
-                <div class="status-text" id="status-1"></div>
-
-                <div class="laser-emitter" style="flex: 1;">
-                    <div class="emitter-lens" id="lens"></div>
-                </div>
-                <div class="status-text" id="status-2"></div>
-            </div>
-            
-            <!-- Step 4: The Fiber Cable -->
-            <div class="fiber-cable-wrapper">
-                <div class="fiber-core-tunnel" id="fiber-core">
-                    <svg class="laser-svg" preserveAspectRatio="none" viewBox="0 0 1000 100">
-                        <path id="laser-beam" class="laser-path" d="M 0 50 L 100 10 L 200 90 L 300 10 L 400 90 L 500 10 L 600 90 L 700 10 L 800 90 L 900 10 L 1000 50" />
-                    </svg>
-                </div>
-                <div class="status-text" id="status-3" style="margin-top: 15px;"></div>
-            </div>
+            <p class="text-center text-muted" style="margin-top: 10px;">Tap the phone screen above to send the signal.</p>
         </div>
-        
-        <div class="toggle-container">
-            <span>Normal Speed</span>
-            <label class="switch">
-                <input type="checkbox" id="speed-toggle">
-                <span class="slider-toggle"></span>
-            </label>
-            <span style="color: var(--accent-pink);">Slow-Mo</span>
+    </section>
+
+    <!-- SECTION: WHY WE PAY FOR INTERNET -->
+    <section class="section">
+        <h2 class="text-center text-gradient">Why Do We Pay for Internet?</h2>
+        <p class="subtitle text-center">The internet is powered by enormous physical infrastructure, electricity, repairs and people working around the clock.</p>
+        <div class="cost-grid">
+            <div class="cost-card">
+                <div class="cost-icon">🚢</div>
+                <h3>Ocean Repair Ships</h3>
+                <p>Specialized ships sail the ocean floor to locate and repair damaged undersea fiber-optic cables, often taking weeks and costing millions per mission.</p>
+            </div>
+            <div class="cost-card">
+                <div class="cost-icon">📡</div>
+                <h3>Towers &amp; Data Centers</h3>
+                <p>Mobile towers require constant power and battery backup. Massive data centers consume enormous electricity and advanced cooling systems to keep servers running non-stop.</p>
+            </div>
+            <div class="cost-card">
+                <div class="cost-icon">🛡️</div>
+                <h3>Cybersecurity 24/7</h3>
+                <p>Teams of security engineers monitor and defend the global network from hackers and cyber threats around the clock, every single day of the year.</p>
+            </div>
         </div>
     </section>
 
@@ -650,13 +733,42 @@
         <div class="glass glass-card" style="width: 100%; max-width: 800px; text-align: center;">
             <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">The Classroom Challenge</h3>
             <p style="margin-bottom: 2rem; font-size: 1.1rem;">If a student is 40 minutes late, they are kicked out. What is the exact minute threshold? (Number between 1 and 40).</p>
-            
-            <input type="number" id="binary-input" placeholder="Enter guess (1-40)" style="padding: 1rem; border-radius: 12px; border: 1px solid var(--accent-cyan); background: rgba(0,0,0,0.5); color: white; font-size: 1.2rem; text-align: center; width: 250px; margin-bottom: 1rem;">
+            <div class="binary-slider-wrap">
+                <div class="binary-slider-labels">
+                    <span class="decrease">← DECREASE / GUESS LOWER</span>
+                    <span class="increase">INCREASE / GUESS HIGHER →</span>
+                </div>
+                <input type="range" id="binary-range" min="1" max="40" value="20" step="1">
+                <div id="binary-value" style="display:inline-block;margin-top:15px;padding:10px 25px;border-radius:12px;font-size:22px;font-weight:bold;background:rgba(0,0,0,.5);border:1px solid var(--accent-cyan);color:#fff;">20 min</div>
+            </div>
             <br>
             <button class="btn btn-solid" onclick="playBinarySearch()">Make Guess</button>
-            
+            <button class="btn" onclick="newBinaryChallenge()">New Random Challenge</button>
             <div style="margin-top: 2rem; font-size: 1.5rem; font-weight: bold;" id="binary-feedback"></div>
             <div style="margin-top: 1rem; color: var(--text-muted);" id="binary-attempts"></div>
+        </div>
+    </section>
+
+    <!-- SECTION: AKINATOR & BINARY SEARCH -->
+    <section class="section">
+        <h2 class="text-center text-gradient">Akinator: Binary Search in Action</h2>
+        <p class="subtitle text-center">Akinator asks questions that split the possibilities into smaller groups, narrowing a search space step-by-step.</p>
+        
+        <div class="akinator-stage">
+            <div class="akinator-mascot">🧞</div>
+            <h3>Think of Spider-Man...</h3>
+            <p>Click start to see how binary decisions lead exactly to him.</p>
+            
+            <button class="btn btn-solid" style="margin-top: 20px;" id="start-akinator-btn" onclick="startAkinator()">START</button>
+            
+            <div class="akinator-tree" id="akinator-tree">
+                <!-- Dynamically injected questions will appear here -->
+            </div>
+            
+            <div class="spiderman-frame" id="spiderman-result">
+                <img src="spiderman.png" alt="Spider-Man" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                <div class="spiderman-placeholder" style="display:none;">Upload <strong>spiderman.png</strong> here</div>
+            </div>
         </div>
     </section>
 
@@ -670,19 +782,23 @@
         </h2>
         
         <div class="grid-2" style="margin-top: 4rem;">
-            <div class="glass glass-card">
+            <div class="matrix-card glass glass-card">
+                <div class="roaming-ray"></div>
                 <h3 style="color: var(--accent-cyan);">The Internet</h3>
                 <p>Is a physical network of fiber-optic cables, not a magical cloud.</p>
             </div>
-            <div class="glass glass-card">
+            <div class="matrix-card glass glass-card">
+                <div class="roaming-ray"></div>
                 <h3 style="color: var(--accent-purple);">Data Plans</h3>
                 <p>Are limits on how much information you can transfer, like a taxi meter.</p>
             </div>
-            <div class="glass glass-card">
+            <div class="matrix-card glass glass-card">
+                <div class="roaming-ray"></div>
                 <h3 style="color: var(--accent-pink);">AI Generation</h3>
                 <p>Relies on the vast data transported through these cables to learn patterns.</p>
             </div>
-            <div class="glass glass-card">
+            <div class="matrix-card glass glass-card">
+                <div class="roaming-ray"></div>
                 <h3 style="color: var(--accent-orange);">Prompt Engineering</h3>
                 <p>Is the art of using precise words to narrow down infinite possibilities into exactly what you want.</p>
             </div>
@@ -745,11 +861,8 @@
         function revealAiAnswer() {
             const bbText = document.getElementById('bb-text');
             const btn = document.getElementById('reveal-ai-btn');
-            
-            // Apply wipe out animation
             bbText.classList.add('wipe-out');
             btn.style.display = 'none';
-            
             setTimeout(() => {
                 bbText.innerHTML = "AI learns from the internet and our data. Internet is like the biggest library and AI has read everything in it.";
                 bbText.style.color = "var(--accent-cyan)";
@@ -762,7 +875,6 @@
         document.querySelectorAll('.prompt-chip').forEach(chip => {
             chip.addEventListener('click', function() {
                 const category = this.parentElement.getAttribute('data-category');
-                // Toggle logic: if clicking already active, deselect it. Otherwise, set it.
                 if(this.classList.contains('active')) {
                     this.classList.remove('active');
                     promptState[category] = '';
@@ -778,7 +890,6 @@
         function updateFinalPrompt() {
             const activeVals = Object.values(promptState).filter(val => val !== '');
             const boxText = document.getElementById('built-prompt-text');
-            
             if(activeVals.length === 0) {
                 boxText.innerText = "Select options above to build your prompt...";
                 boxText.style.color = "#666";
@@ -786,7 +897,6 @@
                 boxText.innerText = activeVals.join(', ');
                 boxText.style.color = "#fff";
             }
-            
             const btn = document.getElementById('copy-prompt-btn');
             btn.innerHTML = '📋 Copy Prompt';
             btn.style.background = 'rgba(255,255,255,0.1)';
@@ -795,7 +905,6 @@
         function copyPrompt() {
             const text = document.getElementById('built-prompt-text').innerText;
             if(text === "Select options above to build your prompt...") return;
-            
             navigator.clipboard.writeText(text).then(() => {
                 const btn = document.getElementById('copy-prompt-btn');
                 btn.innerHTML = '✅ Copied!';
@@ -809,12 +918,11 @@
         const reveal = document.getElementById('slider-reveal');
         const handle = document.getElementById('slider-handle');
         let isSliding = false;
-
         function slide(x) {
             const rect = slider.getBoundingClientRect();
             let percent = ((x - rect.left) / rect.width) * 100;
             if(percent < 0) percent = 0; if(percent > 100) percent = 100;
-            reveal.style.clipPath = `inset(0 0 0 ${percent}%)`; // Slide left reveals right image
+            reveal.style.clipPath = `inset(0 0 0 ${percent}%)`;
             handle.style.left = `${percent}%`;
         }
         slider.addEventListener('mousedown', () => isSliding = true);
@@ -825,175 +933,231 @@
         window.addEventListener('touchmove', (e) => { if(isSliding) slide(e.touches[0].clientX); });
 
         // --- Taxi Analogy Logic ---
-
-let currentStop = 0;
-let fare = 0;
-
-const stops = [10, 45, 80];
-const farePerStop = 22;
-
-function startTaxiRide() {
-
-    const taxi = document.getElementById('taxi');
-    const meter = document.getElementById('taxi-meter');
-    const btn = document.getElementById('taxi-btn');
-
-    // Restart after final stop
-    if (currentStop >= stops.length - 1) {
-
-        currentStop = 0;
-        fare = 0;
-
-        taxi.style.left = stops[0] + '%';
-        meter.innerText = "₹ 0.00";
-        btn.innerText = "Drive to Next Stop";
-
-        return;
-    }
-
-    currentStop++;
-
-    // Move taxi to next stop
-    taxi.style.left = stops[currentStop] + '%';
-
-    // EXACTLY ₹22 FOR EACH STOP
-    fare = currentStop * farePerStop;
-
-    // Final stop is exactly ₹44
-    if (currentStop === 2) {
-        fare = 44;
-    }
-
-    meter.innerText = "₹ " + fare.toFixed(2);
-
-    if (currentStop === stops.length - 1) {
-        btn.innerText = "Restart Ride";
-    } else {
-        btn.innerText = "Drive to Next Stop";
-    }
-}
-        // --- River & Bucket Logic ---
-        let bucketLevel = 0;
-        function fillBucket(amt) {
-            const water = document.getElementById('bucket-water');
-            const error = document.getElementById('bucket-error');
-            
-            if(bucketLevel >= 100) return;
-            
-            bucketLevel += amt;
-            if(bucketLevel >= 100) {
-                bucketLevel = 100;
-                error.innerText = "Recharge or top up data to add more data/water.";
+        let currentStop = 0; let fare = 0; const stops = [10, 45, 80]; const farePerStop = 22;
+        function startTaxiRide() {
+            const taxi = document.getElementById('taxi'); const meter = document.getElementById('taxi-meter'); const btn = document.getElementById('taxi-btn');
+            if (currentStop >= stops.length - 1) {
+                currentStop = 0; fare = 0; taxi.style.left = stops[0] + '%'; meter.innerText = "₹ 0.00"; btn.innerText = "Drive to Next Stop"; return;
             }
-            water.style.height = bucketLevel + '%';
+            currentStop++; taxi.style.left = stops[currentStop] + '%';
+            fare = currentStop * farePerStop;
+            if (currentStop === 2) fare = 44;
+            meter.innerText = "₹ " + fare.toFixed(2);
+            btn.innerText = currentStop === stops.length - 1 ? "Restart Ride" : "Drive to Next Stop";
         }
 
-        // --- Data Journey Sequence ---
-        let journeyActive = false;
-        function triggerJourney() {
-            if(journeyActive) return;
-            journeyActive = true;
-            
-            const binary = document.getElementById('binary-stream');
-            const lens = document.getElementById('lens');
-            const beam = document.getElementById('laser-beam');
-            const slowMo = document.getElementById('speed-toggle').checked;
-            
-            const stat1 = document.getElementById('status-1');
-            const stat2 = document.getElementById('status-2');
-            const stat3 = document.getElementById('status-3');
-            
-            // Clear statuses
-            stat1.innerText = ""; stat2.innerText = ""; stat3.innerText = "";
-            
-            // 1. Converting to Binary
-            stat1.innerText = "Converting to binary...";
-            binary.style.transition = 'opacity 0.3s';
-            binary.style.opacity = '1';
-            
-            let bInterval = setInterval(() => {
-                let str = "";
-                for(let i=0; i<4; i++) {
-                    for(let j=0; j<8; j++) str += Math.round(Math.random());
-                    str += " ";
-                    for(let j=0; j<8; j++) str += Math.round(Math.random());
-                    str += "<br>";
+        // --- River & Bucket Logic ---
+        let currentBucket = 0;
+        let maxBucketCapacity = 100;
+        let scaleSize = 1;
+        let hasHitLimitOnce = false;
+
+        function addBucket(type, amount) {
+            currentBucket += amount;
+            updateBucketVisual();
+        }
+
+        function updateBucketVisual() {
+            let percentage = (currentBucket / maxBucketCapacity) * 100;
+            if (percentage >= 100) {
+                percentage = 100;
+                document.getElementById('bucket-error').classList.add('active');
+                if (!hasHitLimitOnce) {
+                    document.getElementById('btn-increase-cap').style.display = 'inline-block';
+                    hasHitLimitOnce = true;
                 }
-                binary.innerHTML = str;
-            }, 100);
+            } else {
+                document.getElementById('bucket-error').classList.remove('active');
+            }
+            document.getElementById('bucket-water').style.height = percentage + '%';
+            document.getElementById('bucket-status').innerText = `${Math.round(percentage)}% Full`;
+        }
 
-            let delayScale = slowMo ? 2 : 1;
+        function increaseBucketCapacity() {
+            maxBucketCapacity += 25; // Increase capacity by 25% mathematically
+            scaleSize += 0.25; // Visually scale by 25%
+            if (scaleSize > 1.75) scaleSize = 1.75; // Cap visual scale
+            
+            document.getElementById('bucket-wrapper').style.transform = `scale(${scaleSize})`;
+            document.getElementById('bucket-error').classList.remove('active');
+            updateBucketVisual();
+        }
 
-            // 2. Converting to Optical Rays (Blinking)
-            setTimeout(() => {
-                clearInterval(bInterval);
-                stat1.innerText = "";
-                stat2.innerText = "Converting to optical rays...";
-                
-                // Blink lens
-                let blinkCount = 0;
-                let blinkInterval = setInterval(() => {
-                    lens.classList.toggle('active');
-                    blinkCount++;
-                    if(blinkCount > 6) {
-                        clearInterval(blinkInterval);
-                        lens.classList.add('active');
-                        
-                        // 3. Fire Laser
-                        stat2.innerText = "";
-                        stat3.innerText = "Total internal reflection: light bounces perfectly without losing intensity.";
-                        
-                        beam.classList.remove('shoot-fast', 'shoot-slow');
-                        void beam.offsetWidth; // trigger reflow
-                        
-                        if(slowMo) {
-                            beam.classList.add('shoot-slow');
-                        } else {
-                            beam.classList.add('shoot-fast');
-                        }
-                        
-                        let duration = slowMo ? 6000 : 1500;
-                        setTimeout(() => {
-                            binary.style.opacity = '0';
-                            lens.classList.remove('active');
-                            beam.classList.remove('shoot-fast', 'shoot-slow');
-                            stat3.innerText = "";
-                            journeyActive = false;
-                        }, duration + 500);
+        function restartBucket() {
+            currentBucket = 0;
+            maxBucketCapacity = 100;
+            scaleSize = 1;
+            hasHitLimitOnce = false;
+            document.getElementById('bucket-wrapper').style.transform = `scale(1)`;
+            document.getElementById('btn-increase-cap').style.display = 'none';
+            updateBucketVisual();
+        }
 
-                    }
-                }, 200 * delayScale);
-
-            }, 1500 * delayScale);
+        // --- Network Journey Sequence (Laser) ---
+        let journeyIsActive = false;
+        async function runNetworkJourney() {
+            if(journeyIsActive) return;
+            journeyIsActive = true;
+            
+            // Reset mobile screen
+            document.getElementById('play-btn').style.display = 'flex';
+            document.getElementById('video-playing').style.display = 'none';
+            
+            const dot = document.getElementById('laser-dot');
+            dot.style.display = 'block';
+            
+            // Nodes mapping
+            const nodes = [1,2,3,4,5].map(id => document.getElementById(`node-${id}`));
+            const stageRect = document.getElementById('journey-stage').getBoundingClientRect();
+            
+            // Go forward
+            for(let i=0; i<nodes.length; i++) {
+                let r = nodes[i].getBoundingClientRect();
+                dot.style.left = (r.left - stageRect.left + r.width/2 - 12) + 'px';
+                dot.style.top = (r.top - stageRect.top + r.height/2 - 3) + 'px';
+                await new Promise(res => setTimeout(res, 400)); 
+            }
+            
+            // Wait at server
+            dot.style.display = 'none';
+            const tick = document.getElementById('server-tick');
+            tick.style.display = 'block';
+            await new Promise(res => setTimeout(res, 1000));
+            tick.style.display = 'none';
+            dot.style.display = 'block';
+            
+            // Go back
+            for(let i=nodes.length-1; i>=0; i--) {
+                let r = nodes[i].getBoundingClientRect();
+                dot.style.left = (r.left - stageRect.left + r.width/2 - 12) + 'px';
+                dot.style.top = (r.top - stageRect.top + r.height/2 - 3) + 'px';
+                await new Promise(res => setTimeout(res, 400));
+            }
+            
+            dot.style.display = 'none';
+            
+            // Finalize on phone
+            document.getElementById('play-btn').style.display = 'none';
+            document.getElementById('video-playing').style.display = 'block';
+            
+            journeyIsActive = false;
         }
 
         // --- Binary Search Game ---
-        const hiddenTarget = Math.floor(Math.random() * 40) + 1;
+        let hiddenTarget = Math.floor(Math.random() * 40) + 1;
         let attemptsCount = 0;
-        
+        const binaryRange = document.getElementById('binary-range');
+        const binaryValue = document.getElementById('binary-value');
+        if(binaryRange){
+            binaryRange.addEventListener('input', function(){
+                binaryValue.innerText = this.value + " min";
+            });
+        }
         function playBinarySearch() {
-            const input = document.getElementById('binary-input');
             const feedback = document.getElementById('binary-feedback');
             const attemptsEl = document.getElementById('binary-attempts');
-            const guess = parseInt(input.value);
-            
-            if(isNaN(guess) || guess < 1 || guess > 40) {
-                feedback.style.color = "var(--accent-pink)";
-                feedback.innerText = "Please enter a number between 1 and 40.";
-                return;
-            }
-            
+            const guess = parseInt(binaryRange.value, 10);
             attemptsCount++;
-            if(guess === hiddenTarget) {
+            if(guess === hiddenTarget){
                 feedback.style.color = "var(--accent-cyan)";
-                feedback.innerText = `CORRECT! The threshold is ${hiddenTarget}.`;
-                attemptsEl.innerHTML = `You found it in <strong>${attemptsCount} attempts</strong>.<br>If you used Linear Search, it could have taken ${hiddenTarget} attempts!`;
-            } else if (guess < hiddenTarget) {
+                feedback.innerText = `CORRECT! The threshold is ${hiddenTarget} minutes.`;
+                attemptsEl.innerHTML = `You found it in <strong>${attemptsCount} attempts</strong>.`;
+            } else if(guess < hiddenTarget){
                 feedback.style.color = "var(--accent-orange)";
-                feedback.innerText = "Too Low! You're safe. Guess higher.";
+                feedback.innerText = "Too Low! Decrease your guess ←";
+                attemptsEl.innerHTML = "Move the slider to the <strong>RIGHT</strong> to increase.";
             } else {
                 feedback.style.color = "var(--accent-pink)";
-                feedback.innerText = "Too High! You got kicked out. Guess lower.";
+                feedback.innerText = "Too High! Increase your guess →";
+                attemptsEl.innerHTML = "Move the slider to the <strong>LEFT</strong> to decrease.";
+            }
+        }
+        function newBinaryChallenge() {
+            hiddenTarget = Math.floor(Math.random() * 40) + 1;
+            attemptsCount = 0;
+            binaryRange.value = 20;
+            binaryValue.innerText = "20 min";
+            document.getElementById('binary-feedback').innerText = "A new random challenge has been created!";
+            document.getElementById('binary-attempts').innerText = "Find the hidden answer.";
+        }
+
+        // --- Akinator Flow ---
+        const akinatorScript = [
+            { q: "Is your character real?", a1: {t: "YES", wrong:true}, a2: {t: "NO", next:true} },
+            { q: "Is your character from a movie/TV series/comic/game?", a1: {t: "NO", wrong:true}, a2: {t: "YES", next:true} },
+            { q: "Is your character from a comic book?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Is your character a superhero?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Is your character from Marvel?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Is your character male?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Is your character human?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Does your character have superpowers?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Can your character climb walls?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Can your character shoot webs?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Does your character have spider-related powers?", a1: {t: "YES", next:true}, a2: {t: "NO", wrong:true} },
+            { q: "Is your character known as Spider-Man?", a1: {t: "YES", final:true}, a2: {t: "NO", next:true} },
+            { q: "Is your character Peter Parker?", a1: {t: "YES", final:true}, a2: {t: "NO", wrong:true} }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function startAkinator() {
+            document.getElementById('start-akinator-btn').style.display = 'none';
+            document.getElementById('akinator-tree').innerHTML = '';
+            document.getElementById('spiderman-result').style.display = 'none';
+            currentQuestionIndex = 0;
+            renderNextAkinatorQuestion();
+        }
+
+        function renderNextAkinatorQuestion() {
+            if(currentQuestionIndex >= akinatorScript.length) return;
+            const data = akinatorScript[currentQuestionIndex];
+            
+            const div = document.createElement('div');
+            div.className = 'tree-level active';
+            
+            let html = `<div class="tree-node">Q: ${data.q}</div>`;
+            html += `<div class="akinator-options">`;
+            
+            // Btn 1
+            html += `<button class="btn" style="padding: 0.5rem 1.5rem;" onclick="handleAkinatorAnswer(this, ${data.a1.next}, ${data.a1.final})">${data.a1.t}</button>`;
+            // Btn 2
+            html += `<button class="btn" style="padding: 0.5rem 1.5rem;" onclick="handleAkinatorAnswer(this, ${data.a2.next}, ${data.a2.final})">${data.a2.t}</button>`;
+            
+            html += `</div>`;
+            div.innerHTML = html;
+            
+            document.getElementById('akinator-tree').appendChild(div);
+            // smooth scroll down
+            div.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+
+        function handleAkinatorAnswer(btn, isNext, isFinal) {
+            // disable sibling
+            const siblings = btn.parentElement.querySelectorAll('button');
+            siblings.forEach(b => { b.disabled = true; b.style.opacity = 0.5; });
+            btn.style.opacity = 1;
+            btn.style.borderColor = "var(--accent-cyan)";
+            
+            if (isFinal) {
+                // Show Spiderman Result
+                const div = document.createElement('div');
+                div.className = 'tree-level active';
+                div.innerHTML = `<div class="tree-node answer">🕷️ SPIDER-MAN</div>`;
+                document.getElementById('akinator-tree').appendChild(div);
+                document.getElementById('spiderman-result').style.display = 'flex';
+                div.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } else if (isNext) {
+                currentQuestionIndex++;
+                renderNextAkinatorQuestion();
+            } else {
+                // Wrong branch
+                const div = document.createElement('div');
+                div.className = 'tree-level active';
+                div.innerHTML = `<div class="tree-node" style="color:var(--accent-pink);">Different branch explored. (Start again to find Spider-Man)</div>`;
+                document.getElementById('akinator-tree').appendChild(div);
+                document.getElementById('start-akinator-btn').style.display = 'inline-block';
+                document.getElementById('start-akinator-btn').innerText = 'RESTART';
+                div.scrollIntoView({ behavior: "smooth", block: "nearest" });
             }
         }
     </script>
